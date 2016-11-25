@@ -28,13 +28,13 @@ print.Estado <- function(obj){
 }
 
 ## Criação do método genérico "heuristica"
-heuristica <- function(atual, objetivo) {
+heuristica <- function(atual, ...) {
   UseMethod("heuristica")
 }
 
 ## Função padrão para o método genérico "heuristica"
 ## Deve ser implementada para o problema específico
-heuristica.default <- function(atual, objetivo) {
+heuristica.default <- function(atual, ...) {
   print("Funcao Generica. Defina a heuristica para o seu problema!\n")
   return(NULL)
 }
