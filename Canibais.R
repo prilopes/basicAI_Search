@@ -32,7 +32,7 @@ print.Canibais <- function(obj) {
 }
 
 ## Sobrecarga da função genérica "heuristica", definida por Estado.R
-heuristica.Canibais <- function(atual, objetivo = NULL){
+heuristica.Canibais <- function(atual){
   
   if(is.null(atual$desc))
     return(Inf)
