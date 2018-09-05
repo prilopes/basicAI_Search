@@ -1,0 +1,88 @@
+---
+title: "Inteligência Artificial"
+subtitle: "Primeiro Trabalho - Algoritmos de Busca"
+author: "Profa. Heloisa"
+date: "2018/2"
+header-includes:
+  - \usepackage[brazil]{babel}
+output: 
+  pdf_document: 
+    fig_caption: yes
+linkcolor: blue
+urlcolor: blue
+citecolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("Canibais.R")
+source("buscaDesinformada.R")
+source("buscaInformada.R")
+```
+
+Este trabalho consta da execução dos algoritmos de busca informada (busca gulosa, algoritmo A) estudados na disciplina, com o uso das implementações em R disponibilizadas no repositório [basicAI_Search](https://github.com/prilopes/basicAI_Search) e descritas neste documento.
+
+O repositório contém: implementações em R de todos os algoritmos, que retornam o caminho (solução) encontrado durante o processo de busca; o script Estado.R com definições gerais sobre a representação do problema; um projeto R chamado classAI.RProj; um script com a representação específica  para o problema dos Missionários e Canibais para auxiliar a compreensão e definição exigida para a correta execução dos algoritmos; um script inicial chamado exemploCanibais.R onde são definidos os estados iniciais e finais e carregados os algoritmos para execução.
+
+Para este trabalho, podem ser utilizadas as implementações dos algoritmo de busca, o script Estado.R e o projeto classAI.RProj. As representações específicas dos problemas solicitadas deverão ser definidas e utilizadas para as execuções dos algoritmos. Nessas representações devem ser incluídas: representação dos estados, operadores de mudança de estado, função heurística, função de custo. O script inicial também deve ser definido de acordo com os problemas e algoritmos solicitados.
+
+Os algoritmos devem ser aplicados a dois problemas, definido a seguir:
+
+1) **Problema do quebra-cabeça de oito peças**, com função heurística *h = soma das distâncias de cada peça fora do lugar para sua posição correta* (distância de Manhattan). Considerar que todos os movimentos têm custo unitário.
+
+2) **Problema do trajeto entre duas cidades**, considerando o mapa de cidades da Romênia dado em aula, com função heurística *h = distância em linha reta entre cada cidade e a cidade destino*. Considerar como função de custo o comprimento real, em quilômetros, da estrada que liga duas cidades. O mapa pode ser reduzido com a eliminação das cidades N, I, V, H, E. Definir um problema (cidade inicial e cidade final) de tal forma que as soluções encontradas pelos algoritmos de Busca Gulosa e A* sejam diferentes.
+
+## Relatório
+
+O trabalho deve ser acompanhado de um relatório que documente claramente como os problemas foram formulados e como os itens dessas formulações foram definidos e representados na implementação. Os principais itens que devem ser descritos são: a representação do estado, os operadores aplicáveis aos estados (ações), os custos dos operadores, a função heurística, o estado inicial e o estado objetivo. A qualidade e o conteúdo do relatório são levados em consideração na avaliação do trabalho.
+
+## Observações
+
+- O trabalho pode ser feito em duplas;
+- Entregar (no ava – tarefa de arquivo único):
+    + Relatório, com o conteúdo detalhado anteriormente;
+    + Scripts em R específicos definidos para os dois problemas mencionados;
+    + Script em R para inicialização (definição dos estados iniciais e finais e execução dos algoritmos);
+    + Saídas dos dois algoritmos para situações específicas dos dois problemas, de acordo com o que foi solicitado no enunciado.
+- **DATA DE ENTREGA**: 08/10/2018.
+
+***
+
+## Implementações Disponíveis
+
+O repositório [basicAI_Search](https://github.com/prilopes/basicAI_Search) contém os scripts em R que serão necessários para a execução do trabalho de Inteligência Artificial sobre busca informada.
+
+São necessários os arquivos `Estado.R` e `buscaInformada.R` (algoritmos greedy e A*).
+
+Seu trabalho corresponde à implementação dos métodos genéricos definidos em `Estado.R` e Sobrecarga do operador `==`, que define se dois estados são iguais, para os problemas específicos **Problema do quebra-cabeça de oito peças** e **Problema do trajeto entre duas cidades**.
+
+### Missionários e Canibais
+
+O arquivo `Canibais.R` traz uma implementação para o problema de 3 Missionários e 3 Canibais, definindo a geração de novos estados considerando um conjunto de operadores e a avaliação do valor de heurística para esse problema.
+
+Um script com a instanciação do problema dos Missionários e Canibais e execução dos algoritmos de busca também está disponível no repositório (arquivo `exemploCanibais.R`).
+
+#### Inicialização
+
+Definição dos nós inicial e objetivo:
+
+```{r}
+inicial <- Canibais(desc = c(M = 3, C = 3, B = 1))
+
+objetivo <- Canibais()
+objetivo$desc <- c(M = 0, C = 0, B = 0)
+
+```
+
+#### Busca Informada
+
+Para a busca informada, o algoritmo utilizado é o *best first*. A execução do *best first* exige a passagem de um valor para o parâmetro `abordagem`, além dos nós inicial e objetivo. O valor do parâmetro deve ser uma string indicando qual cálculo da função de avaliação deve ser utilizado: como definido para o algoritmo "Greedy" ou como definido para o algoritmo "AEstrela".
+
+A string "AEstrela" foi definida como padrão, então se não for passado valor para o parâmetro `abordagem`, o *best first* utilizará a função de avaliação definida para o A*.
+
+```{r}
+buscaBestFirst(inicial, objetivo, "AEstrela")
+```
+***
+
+**Nota**: Vale lembrar que o problema com 3 Missionários e 3 Canibais possui uma árvore de busca pequena e simples, então o caminho retornado para todos os algoritmos de busca é o mesmo.
